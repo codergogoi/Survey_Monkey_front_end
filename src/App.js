@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { fetchUser } from './actions/index';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from './components/Header';
+
+const Dashboard = () => <h2> Dashboard </h2>
+const SurveyNew = () => <h2> Survey </h2>
+const LandingPage = () => <h2> Landing </h2>
+
+class App extends Component{
+
+  componentDidMount(){
+    this.props.fetchUser();
+  }
+
+  render(){
+    return (
+      <div>
+          <BrowserRouter>
+              <div className="container">
+                  
+                  <Header />
+                  <Route exact path="/" component={LandingPage}/>
+                  <Route exact path="/surveys" component={Dashboard}/>
+                  <Route path="/surveys/new" component={SurveyNew}/>
+              </div>
+          </BrowserRouter>
+      </div>
+    );
+  }
+  
 }
 
-export default App;
+export default connect(null, {fetchUser})(App);
